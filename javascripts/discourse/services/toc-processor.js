@@ -59,7 +59,7 @@ export default class TocProcessor extends Service {
 
     this.isDocs = false;
     return topic.postStream?.posts?.find(
-      (post) => post.post_number === topic.currentPost
+      (post) => post.post_number === topic.currentPost,
     );
   }
 
@@ -77,8 +77,10 @@ export default class TocProcessor extends Service {
       const parsedPost = new DOMParser().parseFromString(content, "text/html");
 
       // direct descendants to avoid picking up headings in quotes
+      // Argo: Pick up headers everywhere, since we frequently use them inside divs
       const headings = parsedPost.querySelectorAll(
-        "body > h1,body > h2,body > h3,body > h4,body > h5"
+        //"body > h1,body > h2,body > h3,body > h4,body > h5"
+        "h1,h2,h3,h4,h5",
       );
 
       if (headings.length < settings.TOC_min_heading) {
@@ -94,7 +96,7 @@ export default class TocProcessor extends Service {
 
   containsHeadings(content) {
     return ["<h1", "<h2", "<h3", "<h4", "<h5"].some((tag) =>
-      content.includes(tag)
+      content.includes(tag),
     );
   }
 
