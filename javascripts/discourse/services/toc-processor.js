@@ -149,7 +149,9 @@ export default class TocProcessor extends Service {
       if (anchor) {
         id = anchor.name;
       } else {
-        id = `toc-${lowerTagName}-${slugify(text) || index}`;
+        // Argo: Remove 'toc-' prefix to allow linking to custom appended links
+        //id = `toc-${lowerTagName}-${slugify(text) || index}`;
+        id = `${slugify(text) || index}`;
       }
 
       // Remove irrelevant ancestors
