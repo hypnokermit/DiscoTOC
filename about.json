@@ -1,8 +1,9 @@
 {
-  "name": "DiscoTOC",
+  "name": "DiscoTOC (Argo)",
   "component": true,
+  "authors": "Discourse, hypnokermit",
   "about_url": "https://meta.discourse.org/t/discotoc-automatic-table-of-contents/111143",
-  "license_url": "https://github.com/discourse/DiscoTOC/blob/main/LICENSE",
+  "license_url": "https://github.com/hypnokermit/DiscoTOC/blob/main/LICENSE",
   "theme_version": "2.1.0",
   "assets": {
     "icons-sprite": "/assets/sprite.svg"
