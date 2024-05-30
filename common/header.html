@@ -22,14 +22,15 @@
 
         if (!id.length) {
           id = slugify(heading.text());
+          heading.attr({id: id})
         }
 
-        const link = "<a name='" + id + "' class='anchor' href='#" + id + "'>";
-
-        heading
-          .attr({id: id})
-          .prepend(link)
-          .append("</a>");
+        if (!heading.children("a.anchor").length) {
+          const link = "<a name='" + id + "' class='anchor' href='#" + id + "'>";
+          heading
+            .prepend(link)
+            .append("</a>");
+        }
       })
     },
     { id: 'decorator' }
