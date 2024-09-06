@@ -156,7 +156,7 @@ export default class TocProcessor extends Service {
     }
     // Argo: Remove 'toc-' prefix to allow linking to custom appended links
     //const res = `p-${postId}-toc-${lowerTagName}-${slug}`;
-    const res = `${lowerTagName}-${slug}`;
+    const res = `${slug}`;
     heading.id = res;
     return res;
   }
