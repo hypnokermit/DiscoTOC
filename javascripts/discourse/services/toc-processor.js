@@ -154,7 +154,9 @@ export default class TocProcessor extends Service {
     } else {
       sameIdCount.set(slug, 1);
     }
-    const res = `p-${postId}-toc-${lowerTagName}-${slug}`;
+    // Argo: Remove 'toc-' prefix to allow linking to custom appended links
+    //const res = `p-${postId}-toc-${lowerTagName}-${slug}`;
+    const res = `${lowerTagName}-${slug}`;
     heading.id = res;
     return res;
   }
