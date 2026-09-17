@@ -77,12 +77,25 @@ export default class TocProcessor extends Service {
     if (this.containsHeadings(content)) {
       const parsedPost = new DOMParser().parseFromString(content, "text/html");
 
-      // direct descendants to avoid picking up headings in quotes
+      /*
+      // Find headings that are either:
+      // 1. Direct descendants of body (to avoid picking up headings in quotes)
+      // 2. Inside wrap blocks (which are used for email filtering with [wrap=no-email])
+      const selector =
+        "body > :is(h1, h2, h3, h4, h5), body > :is(.wrap, .d-wrap) :is(h1, h2, h3, h4, h5)";
+
+      const allHeadings = parsedPost.querySelectorAll(selector);
+
+      // Convert NodeList to Array and sort by document order
+      const headings = Array.from(allHeadings).sort((a, b) => {
+        // eslint-disable-next-line no-bitwise
+        return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING
+          ? -1
+          : 1;
+      });
+      */
       // Argo: Pick up headers everywhere, since we frequently use them inside divs
-      const headings = parsedPost.querySelectorAll(
-        //"body > h1,body > h2,body > h3,body > h4,body > h5"
-        "h1,h2,h3,h4,h5",
-      );
+      const headings = parsedPost.querySelectorAll("h1,h2,h3,h4,h5");
 
       if (headings.length < settings.TOC_min_heading) {
         this.setOverlayVisible(false);
@@ -123,7 +136,9 @@ export default class TocProcessor extends Service {
     }
 
     const topicCategory = topic.category_id;
-    const topicTags = topic.tags || [];
+    const topicTags = (topic.tags || []).map((t) =>
+      typeof t === "string" ? t : t.name,
+    );
 
     const hasMatchingTags = autoTags.some((tag) => topicTags.includes(tag));
     const hasMatchingCategory = autoCategories.includes(topicCategory);
